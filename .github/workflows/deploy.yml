@@ -1,0 +1,78 @@
+name: Refresh data and deploy
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # 22:30 UTC daily — after the US close year-round (21:00 UTC in EST,
+    # 20:00 UTC in EDT), so each run picks up that day's closing figures.
+    - cron: "30 22 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write   # commit the refreshed dataset
+  pages: write      # publish to Pages
+  id-token: write   # OIDC token deploy-pages needs
+
+# Never let a scheduled refresh and a push deploy race each other.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    name: Refresh market data
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install --quiet requests
+
+      # Skipped on push — a code change shouldn't burn API calls.
+      - name: Fetch latest figures
+        if: github.event_name != 'push'
+        run: python3 scripts/fetch_data.py --fail-under 60
+
+      - name: Validate dataset
+        run: python3 scripts/validate_data.py
+
+      - name: Commit refreshed data
+        if: github.event_name != 'push'
+        run: |
+          if git diff --quiet -- data/companies.json; then
+            echo "No change in market data — nothing to commit."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/companies.json
+          git commit -m "Refresh market data ($(date -u +%Y-%m-%d))"
+          git push origin HEAD:main
+
+  deploy:
+    name: Deploy to Pages
+    needs: refresh
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      # Explicitly take main so we publish the commit the refresh job just
+      # pushed, not the older SHA that triggered this run.
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

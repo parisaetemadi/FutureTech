@@ -107,6 +107,13 @@ def main():
     ap.add_argument("--dry-run", action="store_true", help="print changes without writing")
     ap.add_argument("--only", help="comma-separated tickers to refresh")
     ap.add_argument("--delay", type=float, default=0.4, help="seconds between requests")
+    ap.add_argument(
+        "--fail-under",
+        type=float,
+        default=0.0,
+        help="exit non-zero if fewer than this percent of tickers refresh "
+        "(use in CI so a bad run fails loudly instead of silently shipping stale data)",
+    )
     args = ap.parse_args()
 
     data = json.loads(DATA_FILE.read_text())
@@ -150,17 +157,31 @@ def main():
         print(f"  {symbol:<6} {status}")
         time.sleep(args.delay)
 
+    attempted = updated + len(failed)
+    rate = (updated / attempted * 100) if attempted else 0.0
+
     if args.dry_run:
-        print(f"\nDry run: {updated} tickers fetched, {len(failed)} failed. Nothing written.")
-        return
+        print(f"\nDry run: {updated}/{attempted} tickers fetched ({rate:.0f}%). Nothing written.")
+        return 1 if rate < args.fail_under else 0
+
+    if not updated:
+        # Every ticker failed. Leaving asOf alone matters: stamping today's date
+        # on untouched numbers would advertise stale data as fresh.
+        print("\nNo ticker refreshed — leaving the file untouched.", file=sys.stderr)
+        return 1
 
     data["asOf"] = dt.date.today().isoformat()
     DATA_FILE.write_text(json.dumps(data, indent=2) + "\n")
 
-    print(f"\nWrote {DATA_FILE.relative_to(ROOT)} — {updated} tickers refreshed, {len(failed)} failed.")
+    print(f"\nWrote {DATA_FILE.relative_to(ROOT)} — {updated}/{attempted} refreshed ({rate:.0f}%).")
     if failed:
         print("Failed: " + ", ".join(failed))
 
+    if rate < args.fail_under:
+        print(f"Refresh rate {rate:.0f}% is below --fail-under {args.fail_under:.0f}%.", file=sys.stderr)
+        return 1
+    return 0
+
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main() or 0)
