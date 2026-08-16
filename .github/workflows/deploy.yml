@@ -68,7 +68,11 @@ jobs:
         with:
           ref: main
 
+      # enablement lets the workflow turn Pages on itself via the API, so the
+      # first deploy doesn't need anyone to flip Settings -> Pages by hand.
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:

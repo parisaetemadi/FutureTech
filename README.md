@@ -147,13 +147,18 @@ The deploy job checks out `main` explicitly rather than the triggering SHA, so
 it publishes the commit the refresh job just pushed instead of the older one
 that started the run.
 
-### One-time setup
+The site serves at `https://<owner>.github.io/FutureTech/`.
 
-Pages has to be pointed at Actions before the first deploy can succeed:
+### If the deploy fails at `configure-pages`
+
+The workflow passes `enablement: true`, which asks GitHub to turn Pages on
+via the API so no manual setup is needed. If that step still fails with
+`Get Pages site failed ... Not Found`, the API call was refused and Pages has
+to be switched on by hand:
 
 **Settings → Pages → Build and deployment → Source: GitHub Actions**
 
-The site then serves at `https://<owner>.github.io/FutureTech/`.
+Then re-run the workflow.
 
 ## Layout
 
