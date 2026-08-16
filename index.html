@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Future Tech Market Map</title>
+<meta name="description" content="Treemap of public companies with a future-tech story — market cap, cash, revenue and profit, grouped by sector.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='14' height='20' x='1' y='1' rx='2' fill='%2310b981'/><rect width='14' height='12' x='17' y='1' rx='2' fill='%234f46e5'/><rect width='30' height='8' x='1' y='23' rx='2' fill='%23f97316'/></svg>">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <h1 class="title">Future Tech Market Map</h1>
+    <span class="subtitle">public companies with a future-tech story · data <span id="asOf">—</span></span>
+    <span class="totals" id="totals"></span>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <label for="sector">Sector</label>
+      <select id="sector">
+        <option value="all">All</option>
+      </select>
+    </div>
+
+    <div class="ctl">
+      <label for="capPreset">Market cap</label>
+      <select id="capPreset">
+        <option value="all">All</option>
+        <option value="lte2">≤ $2B</option>
+        <option value="lte10">≤ $10B</option>
+        <option value="lte20">≤ $20B</option>
+        <option value="lte50">≤ $50B</option>
+        <option value="lte100">≤ $100B</option>
+        <option value="1to20">$1B – $20B</option>
+        <option value="20to100">$20B – $100B</option>
+        <option value="gte20">≥ $20B</option>
+        <option value="gte100">≥ $100B</option>
+        <option value="gte500">≥ $500B</option>
+        <option value="gte1000">≥ $1T</option>
+        <option value="custom">Custom…</option>
+      </select>
+    </div>
+
+    <div class="ctl">
+      <input type="number" id="capMin" min="0" step="0.1" placeholder="Min $B" aria-label="Minimum market cap in billions">
+      <span class="range-sep">–</span>
+      <input type="number" id="capMax" min="0" step="0.1" placeholder="Max $B" aria-label="Maximum market cap in billions">
+    </div>
+
+    <div class="ctl">
+      <label for="age">Max company age</label>
+      <select id="age">
+        <option value="all">All</option>
+        <option value="5">≤ 5 years</option>
+        <option value="10">≤ 10 years</option>
+        <option value="15">≤ 15 years</option>
+        <option value="20">≤ 20 years</option>
+        <option value="30">≤ 30 years</option>
+      </select>
+    </div>
+
+    <button id="reset" type="button">Reset</button>
+  </div>
+
+  <div class="map" id="map"></div>
+
+  <div class="footnote">Tile size = market cap · figures below the ticker are cash / revenue / profit (TTM)</div>
+  <div class="legend" id="legend"></div>
+  <div class="source">
+    Sources: company filings and public market data, as of <span id="asOfFoot"></span>. Refresh with <code>python3 scripts/fetch_data.py</code>.
+  </div>
+
+</div>
+
+<script src="js/treemap.js"></script>
+<script src="js/app.js"></script>
+<script>
+  // keep the footer date in sync with the header once data loads
+  new MutationObserver(function () {
+    document.getElementById('asOfFoot').textContent = document.getElementById('asOf').textContent;
+  }).observe(document.getElementById('asOf'), { childList: true });
+</script>
+</body>
+</html>
