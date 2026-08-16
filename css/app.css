@@ -227,8 +227,24 @@ button:focus-visible {
 .footnote {
   margin-top: 12px;
   font-size: 13px;
+  line-height: 1.55;
   color: var(--muted);
+  max-width: 95ch;
 }
+
+.footnote strong { color: var(--ink); font-weight: 600; }
+
+/* The worked example is styled like a tile's own stats line, so the reader
+   can match it against what they see on the map. */
+.footnote .ex {
+  font-variant-numeric: tabular-nums;
+  background: #f2f4f7;
+  border-radius: 4px;
+  padding: 1px 6px;
+  white-space: nowrap;
+}
+
+.footnote .neg { color: var(--neg); }
 
 .legend {
   display: flex;

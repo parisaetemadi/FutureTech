@@ -67,7 +67,15 @@
 
   <div class="map" id="map"></div>
 
-  <div class="footnote">Tile size = market cap · figures below the ticker are cash / revenue / profit (TTM)</div>
+  <div class="footnote">
+    Tile size = <strong>market cap</strong>. The small line under each ticker is
+    <strong>cash · revenue · profit</strong> (TTM), always in that order — for example
+    <span class="ex">$2.12B · $246M · <span class="neg">−$1.36B</span></span>
+    means <strong>$2.12B of cash</strong>, $246M of revenue, and a
+    <span class="neg">$1.36B loss</span> for the year.
+    <strong class="neg">Red is the profit figure, never the cash.</strong>
+    Hover any tile to see all four numbers labelled.
+  </div>
   <div class="legend" id="legend"></div>
   <div class="source">
     Sources: company filings and public market data, as of <span id="asOfFoot"></span>. Refresh with <code>python3 scripts/fetch_data.py</code>.
