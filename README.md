@@ -91,11 +91,15 @@ the age filter reads.
 
 ### Refreshing
 
+The numbers refresh **automatically every day** — see [Deployment](#deployment).
+To run it by hand:
+
 ```bash
 pip install requests
 python3 scripts/fetch_data.py             # refresh in place
 python3 scripts/fetch_data.py --dry-run   # show what would change
 python3 scripts/fetch_data.py --only NVDA,IONQ
+python3 scripts/validate_data.py          # sanity-check the result
 ```
 
 The script updates `marketCap`, `cash`, `revenue` and `netIncome` for every
@@ -104,12 +108,52 @@ ticker in the file and stamps a new `asOf` date. It never touches `category`,
 keeps the existing values and carries on, so a partial outage can't blank the
 dataset.
 
+Two guards matter for the unattended daily run:
+
+- **If every ticker fails, the file is left completely untouched** and the
+  script exits non-zero. Stamping today's date onto unchanged numbers would
+  advertise stale data as fresh, which is worse than an obvious failure.
+- **`--fail-under N`** exits non-zero when fewer than N% of tickers refreshed,
+  so a partial outage fails the build instead of quietly shipping a half-updated
+  map. CI uses `--fail-under 60`.
+
+`scripts/validate_data.py` then checks the result before anything deploys:
+required fields, positive market caps, numeric financials, known category ids,
+no duplicate tickers, and a non-future `asOf`.
+
 Adding a company means adding one object to `companies` (the four curated
 fields are enough) and running the script to fill in the numbers.
 
 Yahoo's endpoints are unofficial, rate-limited and require a cookie + crumb
 handshake, which the script performs. If it starts failing wholesale, that
 handshake is the first thing to check.
+
+## Deployment
+
+The site is served by **GitHub Pages** from `.github/workflows/deploy.yml`,
+which runs on three triggers:
+
+| Trigger | What happens |
+| --- | --- |
+| Daily at 22:30 UTC | Refresh the data, validate, commit any change, deploy |
+| Push to `main` | Validate and deploy (no API calls — a code change shouldn't burn them) |
+| Manual dispatch | Same as the daily run, on demand |
+
+22:30 UTC is after the US close year-round (21:00 UTC under EST, 20:00 under
+EDT), so each run picks up that day's closing figures. On weekends nothing has
+moved, the diff is empty, and no commit is made.
+
+The deploy job checks out `main` explicitly rather than the triggering SHA, so
+it publishes the commit the refresh job just pushed instead of the older one
+that started the run.
+
+### One-time setup
+
+Pages has to be pointed at Actions before the first deploy can succeed:
+
+**Settings → Pages → Build and deployment → Source: GitHub Actions**
+
+The site then serves at `https://<owner>.github.io/FutureTech/`.
 
 ## Layout
 
@@ -125,10 +169,12 @@ combined total, so the numbers always describe the full filtered set.
 ## Layout of the repo
 
 ```
-index.html            markup and the filter controls
-css/app.css           all styling
-js/treemap.js         squarified treemap layout
-js/app.js             filtering, rendering, formatting
-data/companies.json   the dataset
-scripts/fetch_data.py refresh from Yahoo Finance
+index.html                     markup and the filter controls
+css/app.css                    all styling
+js/treemap.js                  squarified treemap layout
+js/app.js                      filtering, rendering, formatting
+data/companies.json            the dataset
+scripts/fetch_data.py          refresh from Yahoo Finance
+scripts/validate_data.py       pre-deploy sanity checks
+.github/workflows/deploy.yml   daily refresh + Pages deploy
 ```
