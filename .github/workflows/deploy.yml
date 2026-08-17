@@ -57,6 +57,10 @@ jobs:
   deploy:
     name: Deploy to Pages
     needs: refresh
+    # A failed refresh must not take the site down with it. When the data
+    # provider is unreachable the map should stay published with the last
+    # good figures; the run still goes red so the failure is visible.
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages
