@@ -72,7 +72,28 @@
 
   // ---------- rendering ----------
 
+  // Roughly how wide a string renders at a given font size in this UI face.
+  function textWidth(str, fontSize) { return str.length * fontSize * 0.58; }
+
+  // Header sizing for a sector panel. Returns null when even the smallest
+  // legible size would overflow — better no header than a clipped one.
+  function headerFor(name, gw) {
+    var avail = gw - 36; // horizontal padding + colour dot + gap
+    var font = 13.5;
+    if (textWidth(name, font) > avail) {
+      font = avail / (name.length * 0.58);
+    }
+    if (font < 9.5 || avail < 30) return null;
+    font = Math.min(13.5, font);
+    return { font: font, showTotal: avail - textWidth(name, font) > 64 };
+  }
+
   function tileMarkup(c, w, h) {
+    // Below this, a ticker can only render as an ellipsis stub ("M…"), which
+    // is pure noise. Leave the tile as a plain colour block instead — its area
+    // and sector still carry meaning, and the tooltip and link still work.
+    if (w < 40 || h < 21 || textWidth(c.ticker, 9) > w - 10) return '';
+
     var parts = [];
     var ticker = clamp(9, 44, Math.min(w / 8, h / 6));
     var capSize = ticker * (h >= 150 ? 0.85 : 0.72);
@@ -171,16 +192,16 @@
       panel.style.width = gw + 'px';
       panel.style.height = gh + 'px';
 
-      var headH = gh >= 74 ? HEAD : 0;
-      if (headH) {
+      var headSpec = gh >= 74 ? headerFor(g.cat.name, gw) : null;
+      var headH = headSpec ? HEAD : 0;
+      if (headSpec) {
         var head = document.createElement('div');
         head.className = 'group-head';
-        // Drop the total before it gets clipped in a narrow panel.
-        var showTotal = gw >= g.cat.name.length * 7.5 + 90;
+        head.style.fontSize = headSpec.font.toFixed(1) + 'px';
         head.innerHTML =
           '<span class="dot" style="background:' + g.cat.accent + '"></span>' +
           escapeHtml(g.cat.name) +
-          (showTotal ? ' <span class="group-total">' + money(g.total) + '</span>' : '');
+          (headSpec.showTotal ? ' <span class="group-total">' + money(g.total) + '</span>' : '');
         panel.appendChild(head);
       }
 
@@ -196,12 +217,16 @@
       g.list.forEach(function (c, k) {
         var t = tRects[k];
         var tw = Math.max(0, t.w - TGAP), th = Math.max(0, t.h - TGAP);
-        // Slivers can't fit even a truncated ticker — drop them rather than
-        // render a broken glyph. They stay in the header count and totals.
-        if (tw < 26 || th < 17) return;
+        // Only skip what would be sub-pixel. Anything larger still renders as
+        // a colour block, so a cramped sector panel is never left blank.
+        if (tw < 4 || th < 4) return;
 
-        var el = document.createElement('div');
+        var el = document.createElement('a');
         el.className = 'tile';
+        el.href = 'https://finance.yahoo.com/quote/' + encodeURIComponent(c.ticker) + '/';
+        el.target = '_blank';
+        el.rel = 'noopener noreferrer';
+        el.setAttribute('aria-label', c.ticker + ' — ' + c.name + ', open on Yahoo Finance');
         el.style.left = (t.x + TGAP / 2) + 'px';
         el.style.top = (t.y + TGAP / 2) + 'px';
         el.style.width = tw + 'px';
