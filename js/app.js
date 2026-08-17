@@ -130,6 +130,24 @@
     });
   }
 
+  // A sandboxed frame without allow-popups blocks target="_blank" outright,
+  // so the click never goes anywhere. Open via script instead, and if that is
+  // blocked too, navigate in place rather than doing nothing.
+  // Note: window.open(url, name, 'noopener') returns null even on success, so
+  // opener is cleared afterwards instead — otherwise we'd navigate twice.
+  function openQuote(ev) {
+    if (ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+    ev.preventDefault();
+    var url = this.href;
+    var w = null;
+    try { w = window.open(url, '_blank'); } catch (e) { w = null; }
+    if (w) {
+      try { w.opener = null; } catch (e) { /* cross-origin, already safe */ }
+    } else {
+      window.location.href = url;
+    }
+  }
+
   function tooltip(c) {
     var age = ageOf(c);
     return c.ticker + ' — ' + c.name + '\n' +
@@ -227,6 +245,7 @@
         el.target = '_blank';
         el.rel = 'noopener noreferrer';
         el.setAttribute('aria-label', c.ticker + ' — ' + c.name + ', open on Yahoo Finance');
+        el.addEventListener('click', openQuote);
         el.style.left = (t.x + TGAP / 2) + 'px';
         el.style.top = (t.y + TGAP / 2) + 'px';
         el.style.width = tw + 'px';
