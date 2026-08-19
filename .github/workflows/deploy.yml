@@ -39,6 +39,11 @@ jobs:
       # Skipped on push — a code change shouldn't burn API calls.
       - name: Fetch latest figures
         if: github.event_name != 'push'
+        env:
+          # SEC policy asks automated clients to identify a contact address.
+          # Optional: without it EDGAR is skipped and the other providers carry
+          # the run. Set it as a repository variable to enable EDGAR.
+          SEC_CONTACT: ${{ vars.SEC_CONTACT }}
         run: python3 scripts/fetch_data.py --fail-under 60
 
       - name: Validate dataset

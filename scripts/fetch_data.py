@@ -43,6 +43,7 @@ import csv
 import datetime as dt
 import io
 import json
+import os
 import pathlib
 import sys
 import time
@@ -69,7 +70,14 @@ SEC_TICKERS = "https://www.sec.gov/files/company_tickers.json"
 SEC_CONCEPT = "https://data.sec.gov/api/xbrl/companyconcept/CIK{cik:010d}/{taxonomy}/{concept}.json"
 # SEC asks automated clients to identify themselves; point at the project
 # rather than any personal contact details.
-SEC_UA = "FutureTech-MarketMap/1.0 (+https://github.com/parisaetemadi/FutureTech)"
+# SEC asks automated clients to identify themselves with a contact address.
+# Supplied via the SEC_CONTACT env var so no personal address is committed.
+SEC_CONTACT = os.environ.get("SEC_CONTACT", "").strip()
+SEC_UA = (
+    f"FutureTech-MarketMap/1.0 (+https://github.com/parisaetemadi/FutureTech; {SEC_CONTACT})"
+    if SEC_CONTACT
+    else "FutureTech-MarketMap/1.0 (+https://github.com/parisaetemadi/FutureTech)"
+)
 
 NASDAQ_INFO = "https://api.nasdaq.com/api/quote/{symbol}/info"
 NASDAQ_SUMMARY = "https://api.nasdaq.com/api/quote/{symbol}/summary"
@@ -77,6 +85,10 @@ STOOQ_QUOTE = "https://stooq.com/q/l/"
 
 FIELDS = ("marketCap", "cash", "revenue", "netIncome")
 WANTED = FIELDS + ("sharesOutstanding",)
+
+# Reject a refreshed market cap this far from the stored one; a jump that big
+# means a bad share count or a mis-parsed price, not a real market move.
+MAX_CAP_JUMP = 10.0
 
 
 # ---------------------------------------------------------------- helpers
@@ -147,6 +159,14 @@ def sec_cik_map(session, state):
     if "cik_map" in state:
         return state["cik_map"]
     r = sec_get(session, SEC_TICKERS)
+    if r.status_code == 403:
+        # SEC requires a User-Agent naming a real contact. Without one it
+        # refuses www.sec.gov outright, which takes every EDGAR lookup with it.
+        state["cik_map"] = {}
+        raise ValueError(
+            "SEC returned 403 for the ticker map — set SEC_CONTACT to an email "
+            "so the User-Agent identifies a contact, as SEC policy requires"
+        )
     r.raise_for_status()
     mapping = {}
     for row in (r.json() or {}).values():
@@ -297,38 +317,55 @@ def fetch_yahoo(session, symbol, state):
 
 
 def fetch_nasdaq(session, symbol, state):
+    """Price from /info, market cap from /summary.
+
+    /info carries the last sale price but reports marketCap only sometimes;
+    /summary exposes it reliably as summaryData.MarketCap.value.
+    """
     headers = {"Accept": "application/json", "User-Agent": UA}
     out = {}
 
     r = session.get(
         NASDAQ_INFO.format(symbol=symbol),
-        params={"assetclass": "stocks"},
-        headers=headers,
-        timeout=20,
+        params={"assetclass": "stocks"}, headers=headers, timeout=20,
     )
     r.raise_for_status()
     data = (r.json() or {}).get("data") or {}
-    if not data:
-        raise ValueError("empty nasdaq info payload")
+    if data:
+        price = to_number((data.get("primaryData") or {}).get("lastSalePrice"))
+        if price:
+            out["price"] = price
+        cap = to_number(data.get("marketCap"))
+        if cap:
+            out["marketCap"] = cap
 
-    out["marketCap"] = to_number(data.get("marketCap"))
-    primary = data.get("primaryData") or {}
-    price = to_number(primary.get("lastSalePrice"))
-    if price and out.get("marketCap"):
-        out["sharesOutstanding"] = out["marketCap"] / price
+    if "marketCap" not in out:
+        r = session.get(
+            NASDAQ_SUMMARY.format(symbol=symbol),
+            params={"assetclass": "stocks"}, headers=headers, timeout=20,
+        )
+        r.raise_for_status()
+        summary = ((r.json() or {}).get("data") or {}).get("summaryData") or {}
+        for key in ("MarketCap", "MarketValue"):
+            cap = to_number((summary.get(key) or {}).get("value"))
+            if cap:
+                out["marketCap"] = cap
+                break
 
-    if out.get("marketCap") is None:
-        raise ValueError("nasdaq returned no market cap")
+    if out.get("marketCap") and out.get("price"):
+        out["sharesOutstanding"] = out["marketCap"] / out["price"]
+
+    if not out.get("marketCap") and not out.get("price"):
+        raise ValueError("nasdaq returned neither market cap nor price")
     return out
 
 
 def fetch_stooq(session, symbol, state):
     """Price only. Market cap is derived from a previously cached share count."""
-    r = session.get(
-        STOOQ_QUOTE,
-        params={"s": symbol.lower() + ".us", "f": "sd2t2ohlcv", "h": "", "e": "csv"},
-        timeout=20,
-    )
+    # 'h' must appear as a bare flag; a params dict renders it as 'h=' and
+    # stooq answers 404, so the query string is built by hand.
+    url = f"{STOOQ_QUOTE}?s={symbol.lower()}.us&f=sd2t2ohlcv&h&e=csv"
+    r = session.get(url, timeout=20)
     r.raise_for_status()
     rows = list(csv.DictReader(io.StringIO(r.text)))
     if not rows:
@@ -433,6 +470,24 @@ def main():
             if merged.get("price") and shares:
                 merged["marketCap"] = merged["price"] * shares
                 sources.append("derived")
+
+        # A derived cap is only as good as the share count behind it, and
+        # EntityCommonStockSharesOutstanding is a cover-page fact that some
+        # multi-class filers report per class. That understates or inflates the
+        # cap by a whole multiple rather than a few percent, so reject a jump
+        # no real session produces and keep the previous figure.
+        previous = company.get("marketCap")
+        candidate = merged.get("marketCap")
+        if previous and candidate:
+            ratio = candidate / previous
+            if ratio > MAX_CAP_JUMP or ratio < 1 / MAX_CAP_JUMP:
+                print(
+                    f"  {symbol:<6} REJECTED market cap {candidate:,.0f} "
+                    f"({ratio:.1f}x previous {previous:,.0f}) — keeping previous",
+                    file=sys.stderr,
+                )
+                merged.pop("marketCap", None)
+                merged.pop("sharesOutstanding", None)
 
         if not merged.get("marketCap"):
             failed.append(symbol)
