@@ -166,7 +166,7 @@ cannot be relied on for the scheduled job.
   uses `--fail-under 60`.
 - **A failed refresh never blocks the deploy.** The site stays published with
   the last good figures, clearly dated; the run still goes red.
-- **A market cap more than 10x away from the stored one is rejected.** EDGAR's
+- **A market cap more than 3x away from the stored one is rejected.** EDGAR's
   `EntityCommonStockSharesOutstanding` is a cover-page fact that some
   multi-class filers report per share class, which would scale a derived cap by
   a whole multiple rather than a few percent. No real session moves a cap that

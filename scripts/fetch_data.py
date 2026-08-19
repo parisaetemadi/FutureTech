@@ -86,9 +86,12 @@ STOOQ_QUOTE = "https://stooq.com/q/l/"
 FIELDS = ("marketCap", "cash", "revenue", "netIncome")
 WANTED = FIELDS + ("sharesOutstanding",)
 
-# Reject a refreshed market cap this far from the stored one; a jump that big
-# means a bad share count or a mis-parsed price, not a real market move.
-MAX_CAP_JUMP = 10.0
+# Reject a refreshed market cap this far from the stored one. Now that the
+# stored figures come from the providers themselves rather than hand-research,
+# a gap this size between consecutive trading days means a bad share count or a
+# mis-parsed price, not a real move. Per-share-class share counts — the failure
+# this is aimed at — typically land in the 2-5x range, so 10x never caught them.
+MAX_CAP_JUMP = 3.0
 
 
 # ---------------------------------------------------------------- helpers
