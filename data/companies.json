@@ -65,757 +65,757 @@
       "ticker": "NVDA",
       "name": "Nvidia",
       "category": "ai",
-      "marketCap": 5313836000000.0,
+      "marketCap": 5264952000000.0,
       "cash": 60600000000,
       "revenue": 200000000000,
       "netIncome": 110000000000,
       "founded": 1993,
       "blurb": "AI accelerators and CUDA",
-      "sharesOutstanding": 24203857979.00203
+      "sharesOutstanding": 24141189417.213078
     },
     {
       "ticker": "AVGO",
       "name": "Broadcom",
       "category": "ai",
-      "marketCap": 1732234950092.0,
+      "marketCap": 1724527670171.0,
       "cash": 11000000000,
       "revenue": 70000000000,
       "netIncome": 24000000000,
       "founded": 1961,
       "blurb": "Custom AI silicon and networking",
-      "sharesOutstanding": 4757580198.000549
+      "sharesOutstanding": 4733941832.526283
     },
     {
       "ticker": "PLTR",
       "name": "Palantir",
       "category": "ai",
-      "marketCap": 420431420604.0,
+      "marketCap": 420815749161.0,
       "cash": 6200000000,
       "revenue": 6800000000,
       "netIncome": 1600000000,
       "founded": 2003,
       "blurb": "AI decision platforms",
-      "sharesOutstanding": 2401779038.0119963
+      "sharesOutstanding": 2402876429.85782
     },
     {
       "ticker": "VRT",
       "name": "Vertiv",
       "category": "ai",
-      "marketCap": 100674407240.0,
+      "marketCap": 100454963981.0,
       "cash": 1600000000,
       "revenue": 11000000000,
       "netIncome": 1200000000,
       "founded": 2016,
       "blurb": "Datacenter power and cooling",
-      "sharesOutstanding": 384885144.47375464
+      "sharesOutstanding": 382423343.9203594
     },
     {
       "ticker": "NBIS",
       "name": "Nebius Group",
       "category": "ai",
-      "marketCap": 59816303617.0,
+      "marketCap": 60868383310.0,
       "cash": 9300000000,
       "revenue": 1600000000,
       "netIncome": -300000000,
       "founded": 2024,
       "blurb": "AI cloud infrastructure",
-      "sharesOutstanding": 271781105.9884593
+      "sharesOutstanding": 267824100.45320544
     },
     {
       "ticker": "CRWV",
       "name": "CoreWeave",
       "category": "ai",
-      "marketCap": 50038158216.0,
+      "marketCap": 50118131024.0,
       "cash": 2200000000,
       "revenue": 8500000000,
       "netIncome": -1600000000,
       "founded": 2017,
       "blurb": "GPU cloud for AI training",
-      "sharesOutstanding": 551242524.9687684
+      "sharesOutstanding": 546842673.4751773
     },
     {
       "ticker": "SMCI",
       "name": "Super Micro Computer",
       "category": "ai",
-      "marketCap": 22159263969.0,
+      "marketCap": 21999888072.0,
       "cash": 3500000000,
       "revenue": 24000000000,
       "netIncome": 850000000,
       "founded": 1993,
       "blurb": "AI server systems",
-      "sharesOutstanding": 601500107.7361563
+      "sharesOutstanding": 600597544.9631449
     },
     {
       "ticker": "IREN",
       "name": "IREN",
       "category": "ai",
-      "marketCap": 15052789749.0,
+      "marketCap": 15310102394.0,
       "cash": 1100000000,
       "revenue": 1050000000,
       "netIncome": 100000000,
       "founded": 2018,
       "blurb": "Bitcoin miner turned AI cloud",
-      "sharesOutstanding": 357378674.00284904
+      "sharesOutstanding": 353256523.2960851
     },
     {
       "ticker": "CIFR",
       "name": "Cipher Mining",
       "category": "ai",
-      "marketCap": 6517559452.0,
+      "marketCap": 6594838173.0,
       "cash": 550000000,
       "revenue": 320000000,
       "netIncome": -120000000,
       "founded": 2020,
       "blurb": "HPC and bitcoin datacenters",
-      "sharesOutstanding": 415030721.99085575
+      "sharesOutstanding": 408855435.39987606
     },
     {
       "ticker": "APLD",
       "name": "Applied Digital",
       "category": "ai",
-      "marketCap": 8088267858.0,
+      "marketCap": 8228173032.0,
       "cash": 420000000,
       "revenue": 680000000,
       "netIncome": -180000000,
       "founded": 2017,
       "blurb": "AI datacenter developer",
-      "sharesOutstanding": 291574183.777938
+      "sharesOutstanding": 290133040.6205924
     },
     {
       "ticker": "WULF",
       "name": "TeraWulf",
       "category": "ai",
-      "marketCap": 7579284307.0,
+      "marketCap": 7734014494.0,
       "cash": 600000000,
       "revenue": 170000000,
       "netIncome": -120000000,
       "founded": 2021,
       "blurb": "Zero-carbon AI datacenters",
-      "sharesOutstanding": 499129687.65228844
+      "sharesOutstanding": 492612388.15286624
     },
     {
       "ticker": "CEG",
       "name": "Constellation Energy",
       "category": "nuclear",
-      "marketCap": 95870262147.0,
+      "marketCap": 97140454100.0,
       "cash": 1200000000,
       "revenue": 30000000000,
       "netIncome": 2300000000,
       "founded": 2022,
       "blurb": "Largest US nuclear fleet",
-      "sharesOutstanding": 354307379.0010533
+      "sharesOutstanding": 354281535.0669244
     },
     {
       "ticker": "CCJ",
       "name": "Cameco",
       "category": "nuclear",
-      "marketCap": 42312028813.0,
+      "marketCap": 42673521184.0,
       "cash": 600000000,
       "revenue": 2400000000,
       "netIncome": 420000000,
       "founded": 1988,
       "blurb": "Uranium mining and fuel",
-      "sharesOutstanding": 435532978.003088
+      "sharesOutstanding": 432987991.42415625
     },
     {
       "ticker": "VST",
       "name": "Vistra",
       "category": "nuclear",
-      "marketCap": 47233940992.0,
+      "marketCap": 47888429623.0,
       "cash": 1100000000,
       "revenue": 18500000000,
       "netIncome": 2100000000,
       "founded": 2016,
       "blurb": "Nuclear and gas power for AI load",
-      "sharesOutstanding": 335635194.997513
+      "sharesOutstanding": 335611673.01843154
     },
     {
       "ticker": "TLN",
       "name": "Talen Energy",
       "category": "nuclear",
-      "marketCap": 15494513075.0,
+      "marketCap": 15445161389.0,
       "cash": 232000000,
       "revenue": 3740000000,
       "netIncome": -185000000,
       "founded": 2015,
       "blurb": "Nuclear power for datacenters",
-      "sharesOutstanding": 47914258.99870122
+      "sharesOutstanding": 46810611.87755721
     },
     {
       "ticker": "BWXT",
       "name": "BWX Technologies",
       "category": "nuclear",
-      "marketCap": 14801530869.0,
+      "marketCap": 14862001376.0,
       "cash": 608000000,
       "revenue": 3510000000,
       "netIncome": 355000000,
       "founded": 2015,
       "blurb": "Nuclear reactors and components",
-      "sharesOutstanding": 91678729.44564882
+      "sharesOutstanding": 91205899.8220313
     },
     {
       "ticker": "OKLO",
       "name": "Oklo",
       "category": "nuclear",
-      "marketCap": 7801580241.0,
+      "marketCap": 7996898774.0,
       "cash": 1050000000,
       "revenue": 0,
       "netIncome": -110000000,
       "founded": 2013,
       "blurb": "Fast fission microreactors",
-      "sharesOutstanding": 186017650.0
+      "sharesOutstanding": 185242037.85035905
     },
     {
       "ticker": "LEU",
       "name": "Centrus Energy",
       "category": "nuclear",
-      "marketCap": 3625234770.0,
+      "marketCap": 3663943315.0,
       "cash": 700000000,
       "revenue": 480000000,
       "netIncome": 80000000,
       "founded": 1998,
       "blurb": "HALEU uranium enrichment",
-      "sharesOutstanding": 19952857.99988992
+      "sharesOutstanding": 20039068.66659374
     },
     {
       "ticker": "SMR",
       "name": "NuScale Power",
       "category": "nuclear",
-      "marketCap": 3916927624.0,
+      "marketCap": 3996426430.0,
       "cash": 520000000,
       "revenue": 20000000,
       "netIncome": -110000000,
       "founded": 2007,
       "blurb": "Certified small modular reactor",
-      "sharesOutstanding": 429723271.9692814
+      "sharesOutstanding": 429261700.32223415
     },
     {
       "ticker": "NNE",
       "name": "Nano Nuclear Energy",
       "category": "nuclear",
-      "marketCap": 1008451182.0,
+      "marketCap": 1028319496.0,
       "cash": 120000000,
       "revenue": 0,
       "netIncome": -30000000,
       "founded": 2022,
       "blurb": "Portable microreactor developer",
-      "sharesOutstanding": 53698146.006389774
+      "sharesOutstanding": 53502575.23413112
     },
     {
       "ticker": "ALB",
       "name": "Albemarle",
       "category": "materials",
-      "marketCap": 15757805286.0,
+      "marketCap": 15848079155.0,
       "cash": 1200000000,
       "revenue": 5000000000,
       "netIncome": -250000000,
       "founded": 1994,
       "blurb": "Lithium for batteries",
-      "sharesOutstanding": 118005056.99629311
+      "sharesOutstanding": 117829584.79553904
     },
     {
       "ticker": "MP",
       "name": "MP Materials",
       "category": "materials",
-      "marketCap": 10080549881.0,
+      "marketCap": 10093907500.0,
       "cash": 1450000000,
       "revenue": 416000000,
       "netIncome": -60600000,
       "founded": 2010,
       "blurb": "US rare earth magnets",
-      "sharesOutstanding": 178070126.8503798
+      "sharesOutstanding": 177459695.8509142
     },
     {
       "ticker": "USAR",
       "name": "USA Rare Earth",
       "category": "materials",
-      "marketCap": 4409782768.0,
+      "marketCap": 4426986591.0,
       "cash": 300000000,
       "revenue": 20000000,
       "netIncome": -90000000,
       "founded": 2019,
       "blurb": "Rare earth magnets and Texas mine",
-      "sharesOutstanding": 244720099.0027581
+      "sharesOutstanding": 243776794.65859032
     },
     {
       "ticker": "UUUU",
       "name": "Energy Fuels",
       "category": "materials",
-      "marketCap": 3680540910.0,
+      "marketCap": 3713023620.0,
       "cash": 250000000,
       "revenue": 90000000,
       "netIncome": -50000000,
       "founded": 1987,
       "blurb": "Uranium and rare earth processing",
-      "sharesOutstanding": 249951844.48217317
+      "sharesOutstanding": 248529024.09638554
     },
     {
       "ticker": "TMC",
       "name": "TMC the metals company",
       "category": "materials",
-      "marketCap": 1731456767.0,
+      "marketCap": 1751307864.0,
       "cash": 100000000,
       "revenue": 0,
       "netIncome": -80000000,
       "founded": 2011,
       "blurb": "Deep-sea polymetallic nodules",
-      "sharesOutstanding": 441135482.0382166
+      "sharesOutstanding": 443369079.4936709
     },
     {
       "ticker": "RKLB",
       "name": "Rocket Lab",
       "category": "space",
-      "marketCap": 45347688263.0,
+      "marketCap": 45387186606.0,
       "cash": 850000000,
       "revenue": 780000000,
       "netIncome": -220000000,
       "founded": 2006,
       "blurb": "Small launch and spacecraft",
-      "sharesOutstanding": 598649350.0066006
+      "sharesOutstanding": 596571853.3911672
     },
     {
       "ticker": "ASTS",
       "name": "AST SpaceMobile",
       "category": "space",
-      "marketCap": 25618896130.0,
+      "marketCap": 25852396626.0,
       "cash": 1100000000,
       "revenue": 90000000,
       "netIncome": -400000000,
       "founded": 2017,
       "blurb": "Satellite-to-phone broadband",
-      "sharesOutstanding": 389226620.02430874
+      "sharesOutstanding": 387766561.06194687
     },
     {
       "ticker": "KTOS",
       "name": "Kratos Defense",
       "category": "space",
-      "marketCap": 11383421269.0,
+      "marketCap": 11368403563.0,
       "cash": 350000000,
       "revenue": 1300000000,
       "netIncome": 30000000,
       "founded": 1994,
       "blurb": "Jet drones and hypersonics",
-      "sharesOutstanding": 187721326.99538258
+      "sharesOutstanding": 187288361.82866555
     },
     {
       "ticker": "AVAV",
       "name": "AeroVironment",
       "category": "space",
-      "marketCap": 8786213681.0,
+      "marketCap": 8779098515.0,
       "cash": 150000000,
       "revenue": 1900000000,
       "netIncome": 40000000,
       "founded": 1971,
       "blurb": "Drones and loitering munitions",
-      "sharesOutstanding": 50822614.998843126
+      "sharesOutstanding": 50732451.38603963
     },
     {
       "ticker": "FLY",
       "name": "Firefly Aerospace",
       "category": "space",
-      "marketCap": 4253752029.0,
+      "marketCap": 4235337519.0,
       "cash": 300000000,
       "revenue": 280000000,
       "netIncome": -150000000,
       "founded": 2017,
       "blurb": "Alpha rocket and lunar landers",
-      "sharesOutstanding": 167404644.98229045
+      "sharesOutstanding": 167404645.01976284
     },
     {
       "ticker": "LUNR",
       "name": "Intuitive Machines",
       "category": "space",
-      "marketCap": 4122922465.0,
+      "marketCap": 4239673739.0,
       "cash": 380000000,
       "revenue": 210000000,
       "netIncome": -120000000,
       "founded": 2013,
       "blurb": "Lunar landers and NASA services",
-      "sharesOutstanding": 228924068.01776788
+      "sharesOutstanding": 228062062.34534696
     },
     {
       "ticker": "PL",
       "name": "Planet Labs",
       "category": "space",
-      "marketCap": 8019056835.0,
+      "marketCap": 8065389163.0,
       "cash": 230000000,
       "revenue": 260000000,
       "netIncome": -50000000,
       "founded": 2010,
       "blurb": "Daily earth imaging constellation",
-      "sharesOutstanding": 356402526.0
+      "sharesOutstanding": 355303487.3568282
     },
     {
       "ticker": "RDW",
       "name": "Redwire",
       "category": "space",
-      "marketCap": 3076159054.0,
+      "marketCap": 3098658389.0,
       "cash": 120000000,
       "revenue": 350000000,
       "netIncome": -100000000,
       "founded": 2020,
       "blurb": "Space infrastructure and components",
-      "sharesOutstanding": 249893098.56294525
+      "sharesOutstanding": 248489044.8275862
     },
     {
       "ticker": "BKSY",
       "name": "BlackSky Technology",
       "category": "space",
-      "marketCap": 1145895688.0,
+      "marketCap": 1141803203.0,
       "cash": 100000000,
       "revenue": 130000000,
       "netIncome": -40000000,
       "founded": 2014,
       "blurb": "High-revisit geospatial imagery",
-      "sharesOutstanding": 40924846.0
+      "sharesOutstanding": 41399681.036983326
     },
     {
       "ticker": "TSLA",
       "name": "Tesla",
       "category": "robotics",
-      "marketCap": 1377128185340.0,
+      "marketCap": 1386765080981.0,
       "cash": 37000000000,
       "revenue": 95000000000,
       "netIncome": 6000000000,
       "founded": 2003,
       "blurb": "EVs, robotaxi and Optimus",
-      "sharesOutstanding": 3949548526.7146173
+      "sharesOutstanding": 3962331985.8960514
     },
     {
       "ticker": "ISRG",
       "name": "Intuitive Surgical",
       "category": "robotics",
-      "marketCap": 141600903191.0,
+      "marketCap": 140505741273.0,
       "cash": 8500000000,
       "revenue": 9500000000,
       "netIncome": 2700000000,
       "founded": 1995,
       "blurb": "Surgical robotics",
-      "sharesOutstanding": 353278037.9996008
+      "sharesOutstanding": 352144714.9699248
     },
     {
       "ticker": "SYM",
       "name": "Symbotic",
       "category": "robotics",
-      "marketCap": 25316999497.0,
+      "marketCap": 25413767770.0,
       "cash": 2000000000,
       "revenue": 2750000000,
       "netIncome": 30000000,
       "founded": 2007,
       "blurb": "Warehouse automation robotics",
-      "sharesOutstanding": 604801708.0028667
+      "sharesOutstanding": 603652441.0926366
     },
     {
       "ticker": "AUR",
       "name": "Aurora Innovation",
       "category": "robotics",
-      "marketCap": 12338181076.0,
+      "marketCap": 12415741885.0,
       "cash": 1230000000,
       "revenue": 5000000,
       "netIncome": -900000000,
       "founded": 2017,
       "blurb": "Autonomous trucking software",
-      "sharesOutstanding": 2004155267.9369102
+      "sharesOutstanding": 2009800227.4346025
     },
     {
       "ticker": "JOBY",
       "name": "Joby Aviation",
       "category": "robotics",
-      "marketCap": 7601419761.0,
+      "marketCap": 7640984731.0,
       "cash": 2300000000,
       "revenue": 115000000,
       "netIncome": -850000000,
       "founded": 2009,
       "blurb": "eVTOL air taxis",
-      "sharesOutstanding": 989124236.9551075
+      "sharesOutstanding": 987207329.5865632
     },
     {
       "ticker": "ACHR",
       "name": "Archer Aviation",
       "category": "robotics",
-      "marketCap": 4885801011.0,
+      "marketCap": 4970503629.0,
       "cash": 1800000000,
       "revenue": 2000000,
       "netIncome": -720000000,
       "founded": 2018,
       "blurb": "eVTOL air taxis and defense",
-      "sharesOutstanding": 770023800.0
+      "sharesOutstanding": 770620717.6744186
     },
     {
       "ticker": "PONY",
       "name": "Pony AI",
       "category": "robotics",
-      "marketCap": 3431481392.0,
+      "marketCap": 3394630360.0,
       "cash": 1070000000,
       "revenue": 110000000,
       "netIncome": -280000000,
       "founded": 2016,
       "blurb": "Robotaxis in China",
-      "sharesOutstanding": 433541553.0006317
+      "sharesOutstanding": 430244659.0621039
     },
     {
       "ticker": "OUST",
       "name": "Ouster",
       "category": "robotics",
-      "marketCap": 2921998944.0,
+      "marketCap": 2888820060.0,
       "cash": 190000000,
       "revenue": 140000000,
       "netIncome": -80000000,
       "founded": 2015,
       "blurb": "Digital lidar sensors",
-      "sharesOutstanding": 72112332.99029371
+      "sharesOutstanding": 71682879.90074442
     },
     {
       "ticker": "WRD",
       "name": "WeRide",
       "category": "robotics",
-      "marketCap": 2035040329.0,
+      "marketCap": 2035006803.0,
       "cash": 550000000,
       "revenue": 70000000,
       "netIncome": -250000000,
       "founded": 2017,
       "blurb": "Autonomous driving platform",
-      "sharesOutstanding": 335256475.01688606
+      "sharesOutstanding": 331434332.73615634
     },
     {
       "ticker": "SERV",
       "name": "Serve Robotics",
       "category": "robotics",
-      "marketCap": 410126508.0,
+      "marketCap": 414461883.0,
       "cash": 160000000,
       "revenue": 10000000,
       "netIncome": -90000000,
       "founded": 2017,
       "blurb": "Sidewalk delivery robots",
-      "sharesOutstanding": 86707506.97674417
+      "sharesOutstanding": 86166711.64241165
     },
     {
       "ticker": "IONQ",
       "name": "IonQ",
       "category": "quantum",
-      "marketCap": 16360239363.0,
+      "marketCap": 16520260335.0,
       "cash": 2120000000,
       "revenue": 246000000,
       "netIncome": -1360000000,
       "founded": 2015,
       "blurb": "Trapped-ion quantum computers",
-      "sharesOutstanding": 381002313.9962739
+      "sharesOutstanding": 379340076.5786453
     },
     {
       "ticker": "QBTS",
       "name": "D-Wave Quantum",
       "category": "quantum",
-      "marketCap": 7097250947.0,
+      "marketCap": 7134177331.0,
       "cash": 588000000,
       "revenue": 19000000,
       "netIncome": -100000000,
       "founded": 1999,
       "blurb": "Quantum annealing systems",
-      "sharesOutstanding": 369359924.38199323
+      "sharesOutstanding": 366607262.6413155
     },
     {
       "ticker": "RGTI",
       "name": "Rigetti Computing",
       "category": "quantum",
-      "marketCap": 5652373730.0,
+      "marketCap": 5674068699.0,
       "cash": 541000000,
       "revenue": 12000000,
       "netIncome": -152000000,
       "founded": 2013,
       "blurb": "Superconducting quantum chips",
-      "sharesOutstanding": 333768746.9737231
+      "sharesOutstanding": 331622951.4319112
     },
     {
       "ticker": "QUBT",
       "name": "Quantum Computing Inc",
       "category": "quantum",
-      "marketCap": 1877547212.0,
+      "marketCap": 1905840570.0,
       "cash": 350000000,
       "revenue": 8000000,
       "netIncome": -40000000,
       "founded": 2018,
       "blurb": "Photonic quantum processors",
-      "sharesOutstanding": 226346861.00060278
+      "sharesOutstanding": 225276663.12056735
     },
     {
       "ticker": "ARQQ",
       "name": "Arqit Quantum",
       "category": "quantum",
-      "marketCap": 511202214.0,
+      "marketCap": 518670295.0,
       "cash": 30000000,
       "revenue": 1000000,
       "netIncome": -25000000,
       "founded": 2017,
       "blurb": "Quantum-safe encryption",
-      "sharesOutstanding": 24090585.014137607
+      "sharesOutstanding": 24236929.672897197
     },
     {
       "ticker": "ILMN",
       "name": "Illumina",
       "category": "genomics",
-      "marketCap": 30653000000.0,
+      "marketCap": 30955000000.0,
       "cash": 1100000000,
       "revenue": 4200000000,
       "netIncome": 300000000,
       "founded": 1998,
       "blurb": "DNA sequencing systems",
-      "sharesOutstanding": 151000000.0
+      "sharesOutstanding": 149961244.06549755
     },
     {
       "ticker": "TEM",
       "name": "Tempus AI",
       "category": "genomics",
-      "marketCap": 10840520140.0,
+      "marketCap": 11051628805.0,
       "cash": 821000000,
       "revenue": 1420000000,
       "netIncome": -180000000,
       "founded": 2015,
       "blurb": "AI diagnostics on clinical data",
-      "sharesOutstanding": 180434755.99201065
+      "sharesOutstanding": 178252077.5
     },
     {
       "ticker": "CRSP",
       "name": "CRISPR Therapeutics",
       "category": "genomics",
-      "marketCap": 5610107727.0,
+      "marketCap": 5783187576.0,
       "cash": 2364000000,
       "revenue": 13400000,
       "netIncome": -451000000,
       "founded": 2013,
       "blurb": "CRISPR gene editing therapies",
-      "sharesOutstanding": 96692652.99896587
+      "sharesOutstanding": 97474929.64773302
     },
     {
       "ticker": "BEAM",
       "name": "Beam Therapeutics",
       "category": "genomics",
-      "marketCap": 2951961466.0,
+      "marketCap": 3002572422.0,
       "cash": 1200000000,
       "revenue": 68000000,
       "netIncome": -320000000,
       "founded": 2017,
       "blurb": "Base editing therapies",
-      "sharesOutstanding": 103269598.25083086
+      "sharesOutstanding": 103181182.88659793
     },
     {
       "ticker": "RXRX",
       "name": "Recursion",
       "category": "genomics",
-      "marketCap": 1820163378.0,
+      "marketCap": 1873697595.0,
       "cash": 480000000,
       "revenue": 31000000,
       "netIncome": -520000000,
       "founded": 2013,
       "blurb": "AI-driven drug discovery",
-      "sharesOutstanding": 535342170.0
+      "sharesOutstanding": 544727038.695235
     },
     {
       "ticker": "NTLA",
       "name": "Intellia Therapeutics",
       "category": "genomics",
-      "marketCap": 1803430539.0,
+      "marketCap": 1860882483.0,
       "cash": 376000000,
       "revenue": 38000000,
       "netIncome": -430000000,
       "founded": 2014,
       "blurb": "In vivo CRISPR therapies",
-      "sharesOutstanding": 140072274.87378642
+      "sharesOutstanding": 140975945.6818182
     },
     {
       "ticker": "SDGR",
       "name": "Schrodinger",
       "category": "genomics",
-      "marketCap": 1460579887.0,
+      "marketCap": 1484891716.0,
       "cash": 350000000,
       "revenue": 210000000,
       "netIncome": -150000000,
       "founded": 1990,
       "blurb": "Physics-based drug design",
-      "sharesOutstanding": 74805628.01536492
+      "sharesOutstanding": 76879635.29990423
     },
     {
       "ticker": "HOOD",
       "name": "Robinhood Markets",
       "category": "crypto",
-      "marketCap": 86204008335.0,
+      "marketCap": 86105109285.0,
       "cash": 4600000000,
       "revenue": 4100000000,
       "netIncome": 1600000000,
       "founded": 2013,
       "blurb": "Retail brokerage and crypto",
-      "sharesOutstanding": 899082272.997497
+      "sharesOutstanding": 872922843.5218978
     },
     {
       "ticker": "MSTR",
       "name": "Strategy",
       "category": "crypto",
-      "marketCap": 39855737151.0,
+      "marketCap": 40055534542.0,
       "cash": 60000000,
       "revenue": 460000000,
       "netIncome": -8220000000,
       "founded": 1989,
       "blurb": "Bitcoin treasury company",
-      "sharesOutstanding": 384225750.9977827
+      "sharesOutstanding": 366641048.43935925
     },
     {
       "ticker": "COIN",
       "name": "Coinbase Global",
       "category": "crypto",
-      "marketCap": 42205992572.0,
+      "marketCap": 42266675065.0,
       "cash": 8500000000,
       "revenue": 6200000000,
       "netIncome": 1300000000,
       "founded": 2012,
       "blurb": "Crypto exchange and custody",
-      "sharesOutstanding": 263935917.52860984
+      "sharesOutstanding": 255326054.5185454
     },
     {
       "ticker": "CRCL",
       "name": "Circle Internet Group",
       "category": "crypto",
-      "marketCap": 19898791553.0,
+      "marketCap": 19952105488.0,
       "cash": 1730000000,
       "revenue": 2910000000,
       "netIncome": 451000000,
       "founded": 2013,
       "blurb": "USDC stablecoin issuer",
-      "sharesOutstanding": 253681687.31514534
+      "sharesOutstanding": 246901441.50476426
     },
     {
       "ticker": "GLXY",
       "name": "Galaxy Digital",
       "category": "crypto",
-      "marketCap": 8466657689.0,
+      "marketCap": 8560471071.0,
       "cash": 1200000000,
       "revenue": 900000000,
       "netIncome": 150000000,
       "founded": 2018,
       "blurb": "Crypto trading and AI datacenters",
-      "sharesOutstanding": 391431238.51132685
+      "sharesOutstanding": 380634551.8452646
     },
     {
       "ticker": "RIOT",
       "name": "Riot Platforms",
       "category": "crypto",
-      "marketCap": 7159940480.0,
+      "marketCap": 7272518160.0,
       "cash": 600000000,
       "revenue": 600000000,
       "netIncome": -150000000,
       "founded": 2000,
       "blurb": "Bitcoin mining and AI hosting",
-      "sharesOutstanding": 375258935.0104822
+      "sharesOutstanding": 370377897.06346697
     },
     {
       "ticker": "MARA",
       "name": "MARA Holdings",
       "category": "crypto",
-      "marketCap": 3687226790.0,
+      "marketCap": 3727788216.0,
       "cash": 1100000000,
       "revenue": 750000000,
       "netIncome": -200000000,
       "founded": 2010,
       "blurb": "Bitcoin mining at scale",
-      "sharesOutstanding": 386299297.0141435
+      "sharesOutstanding": 378455656.4467005
     }
   ]
 }
