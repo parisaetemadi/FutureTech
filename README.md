@@ -104,29 +104,59 @@ python3 scripts/validate_data.py          # sanity-check the result
 
 The script updates `marketCap`, `cash`, `revenue` and `netIncome` for every
 ticker in the file and stamps a new `asOf` date. It never touches `category`,
-`founded`, `blurb` or `name` — those are hand-maintained. If a ticker fails it
-keeps the existing values and carries on, so a partial outage can't blank the
-dataset.
+`founded`, `blurb` or `name` — those are hand-maintained.
 
-Two guards matter for the unattended daily run:
+### Where the numbers come from
 
-- **If every ticker fails, the file is left completely untouched** and the
-  script exits non-zero. Stamping today's date onto unchanged numbers would
+The backbone is **SEC EDGAR** — official US government filings, public domain,
+no API key, and automated access is explicitly permitted under a documented
+rate limit. No single free source covers everything, so each ticker is built up
+by merging across a chain, each provider filling gaps the earlier ones left:
+
+| Provider | Supplies | Notes |
+| --- | --- | --- |
+| `edgar` | cash, revenue, profit, share count | SEC XBRL company facts, open data |
+| `stooq` | last close | free CSV, no key |
+| `nasdaq` | market cap, price | no key |
+| `yahoo` | everything | blocked from datacenter IPs, so last resort |
+
+EDGAR carries no market cap, so it is derived as **price × shares outstanding**.
+Share counts are cached back into the dataset, so the price-only path can still
+produce a market cap on later runs.
+
+Pick the chain explicitly with `--providers edgar,stooq`.
+
+**Reporting basis:** EDGAR figures are trailing twelve months where four
+quarterly facts are available, otherwise the latest annual figure. Foreign
+private issuers filing 20-F/40-F have thinner XBRL coverage and fall through to
+the other providers.
+
+### Why not just Yahoo
+
+Yahoo Finance rate-limits by IP range. From a GitHub Actions runner it returns
+HTTP 429 for **every** request — the first scheduled run failed all 63 tickers
+that way. It stays in the chain because it works fine from a laptop, but it
+cannot be relied on for the scheduled job.
+
+### Guards
+
+- **If every provider fails for every ticker the file is left untouched** and
+  the script exits non-zero. Stamping today's date onto unchanged numbers would
   advertise stale data as fresh, which is worse than an obvious failure.
-- **`--fail-under N`** exits non-zero when fewer than N% of tickers refreshed,
-  so a partial outage fails the build instead of quietly shipping a half-updated
-  map. CI uses `--fail-under 60`.
+- **`--fail-under N`** exits non-zero when fewer than N% of tickers refresh, so
+  a partial outage fails the build instead of shipping a half-updated map. CI
+  uses `--fail-under 60`.
+- **A failed refresh never blocks the deploy.** The site stays published with
+  the last good figures, clearly dated; the run still goes red.
 
-`scripts/validate_data.py` then checks the result before anything deploys:
-required fields, positive market caps, numeric financials, known category ids,
-no duplicate tickers, and a non-future `asOf`.
+`scripts/test_fetch_logic.py` covers the parsing (TTM assembly, instant facts,
+number formats) with no network, and runs in CI before any request is made.
+`scripts/validate_data.py` then gates the deploy: required fields, positive
+market caps, numeric financials, known category ids, no duplicate tickers, and
+a non-future `asOf`.
 
 Adding a company means adding one object to `companies` (the four curated
 fields are enough) and running the script to fill in the numbers.
-
-Yahoo's endpoints are unofficial, rate-limited and require a cookie + crumb
-handshake, which the script performs. If it starts failing wholesale, that
-handshake is the first thing to check.
 
 ## Deployment
 
@@ -179,7 +209,8 @@ css/app.css                    all styling
 js/treemap.js                  squarified treemap layout
 js/app.js                      filtering, rendering, formatting
 data/companies.json            the dataset
-scripts/fetch_data.py          refresh from Yahoo Finance
+scripts/fetch_data.py          refresh from SEC EDGAR + price providers
+scripts/test_fetch_logic.py    offline unit tests for the parsing
 scripts/validate_data.py       pre-deploy sanity checks
 .github/workflows/deploy.yml   daily refresh + Pages deploy
 ```

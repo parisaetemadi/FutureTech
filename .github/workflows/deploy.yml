@@ -33,6 +33,9 @@ jobs:
       - name: Install dependencies
         run: pip install --quiet requests
 
+      - name: Test parsing logic
+        run: python3 scripts/test_fetch_logic.py
+
       # Skipped on push — a code change shouldn't burn API calls.
       - name: Fetch latest figures
         if: github.event_name != 'push'
