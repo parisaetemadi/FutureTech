@@ -136,8 +136,9 @@ and `www.sec.gov` returns **403** without one. The address is read from the
 SEC_CONTACT="you@example.com" python3 scripts/fetch_data.py
 ```
 
-In CI it comes from a repository variable — **Settings → Secrets and variables
-→ Actions → Variables → New repository variable**, named `SEC_CONTACT`.
+In CI it comes from a repository secret — **Settings → Secrets and variables
+→ Actions → Secrets → New repository secret**, named `SEC_CONTACT`. A secret
+rather than a variable, so the address is not readable from a public repo.
 
 It is optional. Without it EDGAR is skipped and the remaining providers carry
 the run, which still refreshes **market cap** but leaves cash, revenue and
@@ -187,13 +188,22 @@ which runs on three triggers:
 
 | Trigger | What happens |
 | --- | --- |
-| Daily at 22:30 UTC | Refresh the data, validate, commit any change, deploy |
+| Weekdays at 21:30 UTC | Refresh the data, validate, commit any change, deploy |
 | Push to `main` | Validate and deploy (no API calls — a code change shouldn't burn them) |
 | Manual dispatch | Same as the daily run, on demand |
 
-22:30 UTC is after the US close year-round (21:00 UTC under EST, 20:00 under
-EDT), so each run picks up that day's closing figures. On weekends nothing has
-moved, the diff is empty, and no commit is made.
+21:30 UTC lands shortly after the US close year-round — 16:30 ET under EST
+(close 21:00 UTC) and 17:30 ET under EDT (close 20:00 UTC) — so each run picks
+up that day's closing figures.
+
+GitHub does not run scheduled jobs on the minute; under load they arrive late,
+and roughly 17 minutes has been typical for this repo. That still lands well
+after the bell under either offset, which is why the schedule is not set any
+closer to the close.
+
+Weekends are excluded — nothing closes, so there is nothing to pick up. On a
+market holiday the run finds unchanged prices, produces an empty diff, and
+makes no commit.
 
 The deploy job checks out `main` explicitly rather than the triggering SHA, so
 it publishes the commit the refresh job just pushed instead of the older one

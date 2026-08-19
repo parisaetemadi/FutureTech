@@ -4,9 +4,12 @@ on:
   push:
     branches: [main]
   schedule:
-    # 22:30 UTC daily — after the US close year-round (21:00 UTC in EST,
-    # 20:00 UTC in EDT), so each run picks up that day's closing figures.
-    - cron: "30 22 * * *"
+    # Weekdays at 21:30 UTC, shortly after the US close year-round: 16:30 ET
+    # under EST (close 21:00 UTC) and 17:30 ET under EDT (close 20:00 UTC).
+    # GitHub runs scheduled jobs late under load — observed ~17 minutes here —
+    # which still lands well after the bell either way.
+    # Weekends are excluded: nothing closes, so there is nothing to pick up.
+    - cron: "30 21 * * 1-5"
   workflow_dispatch:
 
 permissions:
@@ -41,9 +44,10 @@ jobs:
         if: github.event_name != 'push'
         env:
           # SEC policy asks automated clients to identify a contact address.
+          # Held as a secret so the address is not readable from a public repo.
           # Optional: without it EDGAR is skipped and the other providers carry
-          # the run. Set it as a repository variable to enable EDGAR.
-          SEC_CONTACT: ${{ vars.SEC_CONTACT }}
+          # the run.
+          SEC_CONTACT: ${{ secrets.SEC_CONTACT }}
         run: python3 scripts/fetch_data.py --fail-under 60
 
       - name: Validate dataset
