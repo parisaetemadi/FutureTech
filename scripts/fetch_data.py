@@ -66,7 +66,7 @@ YAHOO_CRUMB = "https://query1.finance.yahoo.com/v1/test/getcrumb"
 YAHOO_COOKIE = "https://fc.yahoo.com/"
 
 SEC_TICKERS = "https://www.sec.gov/files/company_tickers.json"
-SEC_FACTS = "https://data.sec.gov/api/xbrl/companyfacts/CIK{cik:010d}.json"
+SEC_CONCEPT = "https://data.sec.gov/api/xbrl/companyconcept/CIK{cik:010d}/{taxonomy}/{concept}.json"
 # SEC asks automated clients to identify themselves; point at the project
 # rather than any personal contact details.
 SEC_UA = "FutureTech-MarketMap/1.0 (+https://github.com/parisaetemadi/FutureTech)"
@@ -156,15 +156,35 @@ def sec_cik_map(session, state):
     return mapping
 
 
-def _usd_entries(facts, concept, taxonomies=("us-gaap", "dei")):
-    for tax in taxonomies:
-        node = ((facts.get("facts") or {}).get(tax) or {}).get(concept)
-        if not node:
-            continue
-        for unit, entries in (node.get("units") or {}).items():
-            if unit in ("USD", "shares"):
-                return entries
+def sec_concept(session, cik, taxonomy, concept):
+    """Fetch one XBRL concept for one filer.
+
+    companyfacts returns every fact a company has ever filed — tens of
+    megabytes each, which made a 63-ticker run crawl past ten minutes.
+    companyconcept returns only the series asked for.
+    """
+    url = SEC_CONCEPT.format(cik=cik, taxonomy=taxonomy, concept=concept)
+    r = sec_get(session, url)
+    if r.status_code == 404:
+        return []          # this filer simply does not report the concept
+    r.raise_for_status()
+    units = (r.json() or {}).get("units") or {}
+    for unit in ("USD", "shares"):
+        if units.get(unit):
+            return units[unit]
     return []
+
+
+def _first_concept(session, cik, candidates, picker, delay):
+    """Try concepts in order; return the first that yields a value."""
+    for taxonomy, concept in candidates:
+        entries = sec_concept(session, cik, taxonomy, concept)
+        time.sleep(delay)
+        if entries:
+            value = picker(entries)
+            if value is not None:
+                return value
+    return None
 
 
 def _latest_instant(entries):
@@ -210,34 +230,32 @@ def _trailing_twelve_months(entries):
 
 
 def fetch_edgar(session, symbol, state):
-    """Fundamentals from SEC XBRL company facts. No market cap in EDGAR."""
+    """Fundamentals from SEC XBRL. EDGAR carries no market cap."""
     cik = sec_cik_map(session, state).get(symbol.upper())
     if not cik:
         raise ValueError("no CIK on file (foreign issuer or non-filer)")
 
-    r = sec_get(session, SEC_FACTS.format(cik=cik))
-    r.raise_for_status()
-    facts = r.json() or {}
+    delay = state.get("sec_delay", 0.12)  # SEC allows 10 requests/second
 
-    cash = _latest_instant(_usd_entries(facts, "CashAndCashEquivalentsAtCarryingValue"))
-    if cash is None:
-        cash = _latest_instant(_usd_entries(facts, "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"))
+    cash = _first_concept(session, cik, [
+        ("us-gaap", "CashAndCashEquivalentsAtCarryingValue"),
+        ("us-gaap", "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"),
+    ], _latest_instant, delay)
 
-    revenue = None
-    for concept in (
-        "RevenueFromContractWithCustomerExcludingAssessedTax",
-        "Revenues",
-        "RevenueFromContractWithCustomerIncludingAssessedTax",
-        "SalesRevenueNet",
-    ):
-        revenue = _trailing_twelve_months(_usd_entries(facts, concept))
-        if revenue is not None:
-            break
+    revenue = _first_concept(session, cik, [
+        ("us-gaap", "RevenueFromContractWithCustomerExcludingAssessedTax"),
+        ("us-gaap", "Revenues"),
+        ("us-gaap", "RevenueFromContractWithCustomerIncludingAssessedTax"),
+    ], _trailing_twelve_months, delay)
 
-    net_income = _trailing_twelve_months(_usd_entries(facts, "NetIncomeLoss"))
-    shares = _latest_instant(_usd_entries(facts, "EntityCommonStockSharesOutstanding"))
-    if shares is None:
-        shares = _latest_instant(_usd_entries(facts, "CommonStockSharesOutstanding"))
+    net_income = _first_concept(session, cik, [
+        ("us-gaap", "NetIncomeLoss"),
+    ], _trailing_twelve_months, delay)
+
+    shares = _first_concept(session, cik, [
+        ("dei", "EntityCommonStockSharesOutstanding"),
+        ("us-gaap", "CommonStockSharesOutstanding"),
+    ], _latest_instant, delay)
 
     out = {}
     if cash is not None:
