@@ -64,7 +64,20 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/companies.json
           git commit -m "Refresh market data ($(date -u +%Y-%m-%d))"
-          git push origin HEAD:main
+
+          # The fetch takes minutes, so main can move under us — a push landing
+          # meanwhile makes this non-fast-forward. Rebase onto whatever is there
+          # and retry rather than losing the refresh.
+          for attempt in 1 2 3; do
+            if git pull --rebase --quiet origin main && git push origin HEAD:main; then
+              echo "Pushed refreshed data on attempt $attempt."
+              exit 0
+            fi
+            echo "Push attempt $attempt failed; refetching main and retrying."
+            sleep 5
+          done
+          echo "Could not push refreshed data after 3 attempts." >&2
+          exit 1
 
   deploy:
     name: Deploy to Pages
