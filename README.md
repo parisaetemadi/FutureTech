@@ -126,6 +126,23 @@ produce a market cap on later runs.
 
 Pick the chain explicitly with `--providers edgar,stooq`.
 
+#### EDGAR needs a contact address
+
+SEC policy asks automated clients to identify a contact in their User-Agent,
+and `www.sec.gov` returns **403** without one. The address is read from the
+`SEC_CONTACT` environment variable so no personal address is committed:
+
+```bash
+SEC_CONTACT="you@example.com" python3 scripts/fetch_data.py
+```
+
+In CI it comes from a repository variable — **Settings → Secrets and variables
+→ Actions → Variables → New repository variable**, named `SEC_CONTACT`.
+
+It is optional. Without it EDGAR is skipped and the remaining providers carry
+the run, which still refreshes **market cap** but leaves cash, revenue and
+profit at their stored values.
+
 **Reporting basis:** EDGAR figures are trailing twelve months where four
 quarterly facts are available, otherwise the latest annual figure. Foreign
 private issuers filing 20-F/40-F have thinner XBRL coverage and fall through to
@@ -148,6 +165,11 @@ cannot be relied on for the scheduled job.
   uses `--fail-under 60`.
 - **A failed refresh never blocks the deploy.** The site stays published with
   the last good figures, clearly dated; the run still goes red.
+- **A market cap more than 10x away from the stored one is rejected.** EDGAR's
+  `EntityCommonStockSharesOutstanding` is a cover-page fact that some
+  multi-class filers report per share class, which would scale a derived cap by
+  a whole multiple rather than a few percent. No real session moves a cap that
+  far, so the previous figure is kept and the ticker counts as failed.
 
 `scripts/test_fetch_logic.py` covers the parsing (TTM assembly, instant facts,
 number formats) with no network, and runs in CI before any request is made.
